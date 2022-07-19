@@ -21,4 +21,5 @@ urlpatterns = [
 
     # api
     path("posts/", include("posts.urls", namespace="posts_api")),
+    path("chats/", include("chats.urls", namespace="chats_api")),
 ]
