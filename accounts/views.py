@@ -68,3 +68,11 @@ class UserDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_field = 'id'
+
+class CurrentUserAPIView(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwner]
+    serializer_class = UserSerializer
+
+    def get(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
