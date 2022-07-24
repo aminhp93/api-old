@@ -45,6 +45,7 @@ class PostListSerializer(serializers.ModelSerializer):
         model = Post
         fields = [
             "id",
+            "slug",
             "url",
             "title",
             "author",
