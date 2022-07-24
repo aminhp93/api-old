@@ -26,7 +26,7 @@ urlpatterns = [
 
     # api authentication and token generation
     path("user/", include("accounts.urls", namespace="accounts")),
-    path("me/", view=CurrentUserAPIView.as_view()),
+    path("api/me/", view=CurrentUserAPIView.as_view()),
 
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
