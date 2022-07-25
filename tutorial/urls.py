@@ -33,5 +33,5 @@ urlpatterns = [
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     # api
     path("api/posts/", include("posts.urls", namespace="posts_api")),
-    path("chats/", include("chats.urls", namespace="chats_api")),
+    path("api/chats/", include("chats.urls", namespace="chats_api")),
 ]
