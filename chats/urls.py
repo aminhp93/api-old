@@ -1,10 +1,12 @@
 from django.urls import path
 from .views import (
-    ListChatAPIView
+    ChatList,
+    ChatDetail
 )
 
 app_name = "chats"
 
 urlpatterns = [
-    path("", ListChatAPIView.as_view(), name="list_chat")
+    path('', ChatList.as_view()),
+    path('<int:pk>/', ChatDetail.as_view()),
 ]
