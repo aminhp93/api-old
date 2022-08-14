@@ -19,6 +19,8 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
 )
 
+from auth.permissions import TestPermission
+
 from .paginations import PostLimitOffsetPagination
 from .models import Post, Comment
 from .permissions import IsOwnerOrReadOnly, IsOwner
@@ -63,7 +65,7 @@ class ListPostAPIView(ListAPIView):
 
     queryset = Post.objects.all()
     serializer_class = PostListSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticated]
     pagination_class = PostLimitOffsetPagination
 
 

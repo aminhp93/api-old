@@ -12,11 +12,15 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import dj_database_url
 from pathlib import Path
 import os
+import firebase_admin
+from firebase_admin import credentials
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+print(BASE_DIR)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -41,9 +45,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
-    'accounts',
     'chats',
-    'posts'
+    'posts',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -159,11 +163,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-        'rest_framework.permissions.AllowAny',
+        # 'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'auth.authentication.FirebaseAuthentication',
+         "users.authentication.FireBaseAuth",
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
@@ -189,3 +195,8 @@ CORS_ALLOW_METHODS = [
     "POST",
     "PUT",
 ]
+
+cred = credentials.Certificate(os.path.join(BASE_DIR, "reactjs-with-redux-firebase-adminsdk-18d0j-444c1844c3.json"))
+firebase_admin.initialize_app(cred)
+
+AUTH_USER_MODEL = 'users.CustomUser'
