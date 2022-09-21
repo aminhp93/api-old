@@ -22,7 +22,11 @@ class FireBaseAuth(BaseAuthentication):
 
         try:
             decoded_token = auth.verify_id_token(id_token)
-        except Exception:
+            print(decoded_token)
+        except Exception as e:
+            if hasattr(e, 'args') and e.args and len(e.args) > 0:
+                if 'Token expired' in e.args[0]:
+                    raise exceptions.AuthenticationFailed('Token expired')
             raise exceptions.AuthenticationFailed('Invalid token')
 
         try:
