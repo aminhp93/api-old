@@ -14,14 +14,12 @@ class Redirect2View(APIView):
             headers = {}
 
             response = requests.request("GET", url, headers=headers, data=payload)
-            print(response.text)
             return Response({'data': response.text})
         except:
             raise Response({'errors': 'Error'})
 
 class RedirectView(APIView):
     def get(self, request, *args, **kwargs):
-        print(self.kwargs, self.args, args, kwargs, request.GET,)
         try:
             url = request.GET.get('redirect_url')
 
@@ -33,7 +31,6 @@ class RedirectView(APIView):
             headers = {}
 
             response = requests.request("GET", url, headers=headers, data=payload)
-            print(response.json())
             return Response(response.json())
         except:
             return Response({'errors': 'Error'})

@@ -10,11 +10,9 @@ from .models import CustomUser
 class FireBaseAuth(BaseAuthentication):
     def authenticate(self: "FireBaseAuth", request: Request):
         auth_token = request.META.get('HTTP_AUTHORIZATION')
-        # print(13, auth_token)
         if not auth_token:
             return None
 
-        # id_token = auth_token.split(' ').pop()
         id_token = auth_token.replace("Bearer ", "")
 
         if not id_token:
@@ -22,7 +20,6 @@ class FireBaseAuth(BaseAuthentication):
 
         try:
             decoded_token = auth.verify_id_token(id_token)
-            print(decoded_token)
         except Exception as e:
             if hasattr(e, 'args') and e.args and len(e.args) > 0:
                 if 'Token expired' in e.args[0]:

@@ -23,6 +23,7 @@ urlpatterns = [
     # api
     path('api/users/', include('users.urls')),
     path("api/posts/", include("posts.urls")),
+    path("api/todos/", include("todos.urls")),
     path("api/chats/", include("chats.urls")),
     path("api/redirects/", include("redirects.urls"))
 ]

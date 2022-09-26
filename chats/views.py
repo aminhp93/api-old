@@ -115,7 +115,6 @@ class PuhserAuthenticationAPI(ModelViewSet):
 
     @action(detail=True, method=['post'])
     def pusher_authentication(self, request):
-        print(request)
         pusher_client = pusher.Pusher(
             app_id=PUSHER_CONFIG['app_id'],
             key=PUSHER_CONFIG['key'],
