@@ -6,8 +6,12 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView,
 )
+from fcm_django.api.rest_framework import FCMDeviceAuthorizedViewSet
 
 router = routers.DefaultRouter()
+
+# router.register('devices', FCMDeviceAuthorizedViewSet)
+
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
@@ -22,6 +26,7 @@ urlpatterns = [
     
     # api
     path('api/users/', include('users.urls')),
+    path('api/pushnotification/', include('push_notifications.urls')),
     path("api/posts/", include("posts.urls")),
     path("api/todos/", include("todos.urls")),
     path("api/chats/", include("chats.urls")),

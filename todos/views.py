@@ -70,9 +70,11 @@ class ListTodoAPIView(ListAPIView):
         This view should return a list of all the purchases for
         the user as determined by the username portion of the URL.
         """
-        is_done = json.loads(self.request.query_params.get('is_done'))
-        if is_done is not None:
-            return Todo.objects.filter(author=self.request.user, is_done=is_done)
+        params_id_done = self.request.query_params.get("is_done", None)
+        if params_id_done is not None:
+            is_done = json.loads(params_id_done)
+            if is_done is not None:
+                return Todo.objects.filter(author=self.request.user, is_done=is_done)
         return Todo.objects.all()
 
 

@@ -14,6 +14,8 @@ from rest_framework.permissions import IsAuthenticated
 from .models import CustomUser
 from .serializers import FireBaseAuthSerializer
 
+from firebase_admin.messaging import Message, Notification
+from fcm_django.models import FCMDevice
 
 class FireBaseAuthAPI(GenericAPIView):
     serializer_class = FireBaseAuthSerializer
@@ -86,6 +88,9 @@ class FireBaseAuthAPI(GenericAPIView):
 
 @api_view()
 def public(request: Request) -> Response:
+    device = FCMDevice.objects.all().first()
+    device.send_message(Message(notification=Notification(title="title", body="body", image="image_url")))
+
     return Response({"message": "Hello,  User X"})
 
 
