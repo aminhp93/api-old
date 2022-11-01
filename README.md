@@ -14,6 +14,10 @@
 
 - pip3 install -r requirements.txt
 
+// ubuntu error install psycopg2
+sudo apt install python3-dev libpq-dev
+pip3 install psycopg2
+
 - python3 manage.py runserver
 
 - psql api -c "GRANT ALL ON ALL TABLES IN SCHEMA public to aminhp93;"
