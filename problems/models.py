@@ -10,10 +10,12 @@ User = get_user_model()
 
 # Create your models here.
 class Problem(models.Model):
+    title = models.CharField(max_length=300, blank=True, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author_problem')
-    solver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='solver_problem')
+    solver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='solver_problem', null=True)
     problem_src = models.TextField(blank=False, null=False)
     is_done = models.BooleanField(default=False)
+    note = models.CharField(max_length=300, blank=True, null=True)
     created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
 
