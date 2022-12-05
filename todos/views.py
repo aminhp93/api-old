@@ -47,7 +47,15 @@ class CreateTodoAPIView(APIView):
     ]
 
     def post(self, request, *args, **kwargs):
+        # Check if user has less than 5 active todos
+        if Todo.objects.filter(author=request.user, is_done=False).count() >= 5:
+            return Response(
+                {"error": "You can only have 5 active todos at a time"},
+                status=400,
+            )            
+
         serializer = TodoCreateUpdateSerializer(data=request.data)
+
         if serializer.is_valid(raise_exception=True):
             serializer.save(author=request.user)
             return Response(serializer.data, status=200)
