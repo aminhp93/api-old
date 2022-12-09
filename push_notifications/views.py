@@ -14,8 +14,17 @@ class PushNotificationTest(GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         # Get device id
+        title = request.data.get('title')
+        if not title:
+            title = "No title"
+        
+        body = request.data.get('body')
+        if not body:
+            body = "No body"
+
         device = FCMDevice.objects.all().filter(active=True)
-        device.send_message(Message(notification=Notification(title="title", body="body", image="image_url")))
+        print(device)
+        device.send_message(Message(notification=Notification(title=title, body=body, image="image_url")))
         return Response({ "PushNotificationTest": "ok"})
 
 class PushNotificationCreateTokenView(GenericAPIView):

@@ -15,7 +15,8 @@ class PostCreateUpdateSerializer(serializers.ModelSerializer):
             "title",
             "description",
             "body",
-            "image"
+            "image",
+            "tags"
         ]
 
     def validate_title(self, value):
