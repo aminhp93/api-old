@@ -33,6 +33,8 @@ from .serializers import (
     CommentCreateUpdateSerializer,
 )
 
+from tags.models import Tag
+
 # Create your views here.
 class CreatePostAPIView(APIView):
     queryset = Post.objects.all()
@@ -44,7 +46,13 @@ class CreatePostAPIView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = PostCreateUpdateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save(author=request.user)
+            post = serializer.save(author=request.user)
+            tags = request.data.pop('tags', [])
+            print(49, tags)
+            for tag_id in tags:
+                tag, _ = Tag.objects.get_or_create(id=tag_id)
+                post.tags.add(tag)
+            post.save()
             return Response(serializer.data, status=200)
         else:
             return Response({"errors": serializer.errors}, status=400)

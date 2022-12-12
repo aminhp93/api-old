@@ -18,7 +18,7 @@ router = routers.DefaultRouter()
 urlpatterns = [
     path('', include(router.urls)),
 
-    path("admin/", admin.site.urls),
+    path('admin/', admin.site.urls),
     
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
@@ -28,10 +28,11 @@ urlpatterns = [
     path('api/users/', include('users.urls')),
     path('api/pushnotifications/', include('push_notifications.urls')),
     path('api/payments/', include('payments.urls')),
-    path("api/problems/", include("problems.urls")),
-    path("api/posts/", include("posts.urls")),
-    path("api/todos/", include("todos.urls")),
-    path("api/chats/", include("chats.urls")),
-    path("api/test/", include("test.urls")),
-    path("api/redirects/", include("redirects.urls"))
+    path('api/problems/', include('problems.urls')),
+    path('api/posts/', include('posts.urls')),
+    path('api/todos/', include('todos.urls')),
+    path('api/chats/', include('chats.urls')),
+    path('api/test/', include('test.urls')),
+    path('api/tags/', include('tags.urls')),
+    path('api/redirects/', include('redirects.urls'))
 ]
