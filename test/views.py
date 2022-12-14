@@ -4,6 +4,17 @@ from rest_framework.views import APIView
 from .models import Test
 from .serializers import TestSerializer
 from rest_framework import status
+import schedule
+import time
+from rest_framework.decorators import api_view, permission_classes
+from datetime import datetime, timezone, timedelta
+from dateutil import tz
+import pytz
+from fcm_django.models import FCMDevice
+from firebase_admin.messaging import Message, Notification
+
+
+DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 class TestList(APIView):
     
@@ -49,4 +60,40 @@ class TestDetail(APIView):
         test = self.get_object(pk)
         test.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view()
+def test_start_job(requet):
+    local = pytz.timezone("Asia/Saigon")
+    now = datetime.now()
+    naive = datetime.strptime("2022-12-12 13:54:00", DATE_FORMAT)
+    local_dt = local.localize(naive, is_dst=None)
+    utc_dt = local_dt.astimezone(pytz.utc)
+
+
+    schedule.every().minute.at(':06').do(task).tag('test-tag-1')
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+    return Response({ "message": "Start job"})
+
+@api_view()
+def test_cancel_job(requet):
+
+    print(' cancel job')
+    all_jobs = schedule.get_jobs()
+    print(all_jobs)
+    # schedule.clear()
+    return Response({ "message": "Cancel job"})
+
+def task():
+    # datetime object containing current date and time
+    now = datetime.now()
+    device = FCMDevice.objects.all().filter(active=True)
+    print(device)
+    title = "Test title"
+    body = "Test body"
+    device.send_message(Message(notification=Notification(title=title, body=body, image="image_url")))
+    print("I'm working...", now.strftime(DATE_FORMAT))
+
+
 
