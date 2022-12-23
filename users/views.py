@@ -73,7 +73,7 @@ class FireBaseAuthAPI(GenericAPIView):
                     "username": new_user.username,
                     "email": new_user.email,
                     "firebase_user_id": new_user.firebase_user_id,
-                    "id": user.id
+                    "id": new_user.id
                 }
 
                 return Response(content, status=status.HTTP_201_CREATED)
