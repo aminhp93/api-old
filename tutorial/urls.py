@@ -34,5 +34,6 @@ urlpatterns = [
     path('api/chats/', include('chats.urls')),
     path('api/test/', include('test.urls')),
     path('api/tags/', include('tags.urls')),
-    path('api/redirects/', include('redirects.urls'))
+    path('api/redirects/', include('redirects.urls')),
+    path('api/stocks/', include('stocks.urls'))
 ]
