@@ -24,7 +24,9 @@ from auth.permissions import TestPermission
 from .models import Stock
 from .serializers import (
    StockSerializer,
+   StockListSerializer
 )
+from rest_framework.parsers import JSONParser
 
 
 # Create your views here.
@@ -38,15 +40,21 @@ class CreateStockAPIView(APIView):
 
     queryset = Stock.objects.all()
     serializer_class = StockSerializer
-    permission_classes = [
+    permission_classes = []
+    parser_classes = [JSONParser]
 
-    ]
 
     def post(self, request, *args, **kwargs):
+        # delete all data in table 
+        print(request.data)
         
-        # create array with 1000 item to data
+        Stock.objects.all().delete()
+        
+        # create array with 100000 item to data
+        # data = request.data
         data = []
-        for i in range(1000):
+        
+        for i in range(1):
             data.append({
                 "key": "HPG_2022-11-" + str(i),
                 "adjRatio": 1,
@@ -55,7 +63,7 @@ class CreateStockAPIView(APIView):
                 "buyForeignValue": 367095950000,
                 "buyQuantity": 98277150,
                 "currentForeignRoom": 1695520523,
-                "date": "2022-11-28T00:00:00",
+                "date": "2022-11-28",
                 "dealVolume": 58844900,
                 "priceAverage": 16.11906,
                 "priceBasic": 15.3,
@@ -76,9 +84,9 @@ class CreateStockAPIView(APIView):
                 "totalValue": 949676323794,
                 "totalVolume": 58921900,
             })
+        print(data)
 
         serializer = StockSerializer(data=data, many=True)
-
 
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -93,10 +101,9 @@ class ListStockAPIView(ListAPIView):
         Returns a list of all existing posts
     """
 
-    serializer_class = StockSerializer
+    serializer_class = StockListSerializer
     permission_classes = []
     pagination_class = None
 
     def get_queryset(self):
-       
         return Stock.objects.all()

@@ -28,3 +28,45 @@ class StockSerializer(serializers.ModelSerializer):
         model = Stock
         fields = "__all__"
         list_serializer_class = BulkCreateListSerializer
+
+class StockListSerializer(serializers.ModelSerializer):
+    d = serializers.SerializerMethodField()
+    v = serializers.SerializerMethodField()
+    c = serializers.SerializerMethodField()
+    h = serializers.SerializerMethodField()
+    l = serializers.SerializerMethodField()
+    o = serializers.SerializerMethodField()
+    v2 = serializers.SerializerMethodField()
+
+    def get_d(self, obj):
+        return obj.date
+
+    def get_v(self, obj):
+        return obj.dealVolume
+
+    def get_c(self, obj):
+        return obj.priceClose
+
+    def get_h(self, obj):
+        return obj.priceHigh
+
+    def get_l(self, obj):
+        return obj.priceLow
+
+    def get_o(self, obj):
+        return obj.priceOpen
+
+    def get_v2(self, obj):
+        return obj.totalVolume
+    
+    class Meta:
+        model = Stock
+        fields = [
+            'd', # date
+            'v', # dealVolume
+            'c', # priceClose
+            'h', # priceHigh
+            'l', # priceLow
+            'o', # priceOpen
+            'v2', # totalVolume
+        ]
