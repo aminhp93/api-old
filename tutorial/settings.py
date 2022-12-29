@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'problems',
     'push_notifications',
     'redirects',
+    'stocks',
     'test',
     'tags',
     'todos',
