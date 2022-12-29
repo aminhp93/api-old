@@ -111,4 +111,9 @@ class ListStockAPIView(ListAPIView):
     pagination_class = None
 
     def get_queryset(self):
+        symbols = self.request.query_params.get('symbols', None)
+        if symbols:
+            symbols = symbols.split(",")
+            print(symbols)
+            return Stock.objects.filter(symbol__in=symbols)
         return Stock.objects.all()
