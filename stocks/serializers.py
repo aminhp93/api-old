@@ -37,6 +37,7 @@ class StockListSerializer(serializers.ModelSerializer):
     l = serializers.SerializerMethodField()
     o = serializers.SerializerMethodField()
     v2 = serializers.SerializerMethodField()
+    s = serializers.SerializerMethodField()
 
     def get_d(self, obj):
         return obj.date
@@ -58,6 +59,9 @@ class StockListSerializer(serializers.ModelSerializer):
 
     def get_v2(self, obj):
         return obj.totalVolume
+
+    def get_s(self, obj):
+        return obj.symbol
     
     class Meta:
         model = Stock
@@ -69,4 +73,6 @@ class StockListSerializer(serializers.ModelSerializer):
             'l', # priceLow
             'o', # priceOpen
             'v2', # totalVolume
+            's', # symbol
         ]
+        # fields = "__all__"
