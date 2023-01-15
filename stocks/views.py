@@ -149,7 +149,9 @@ def list_stock_jobs(request):
 def start_daily_import_stock_job(requet):
     print('start_daily_import_stock_job') 
     schedule.every().day.at(SELECTED_TIME).do(daily_import_stock_job).tag('daily_import_stock')
-    
+
+    list_tasks = schedule.get_jobs()
+    print(list_tasks)
     while True:
         schedule.run_pending()
         time.sleep(1)
