@@ -27,9 +27,21 @@ from .serializers import (
    StockListSerializer
 )
 from rest_framework.parsers import JSONParser
+from rest_framework.decorators import api_view
+import schedule
+from .jobs import daily_import_stock_job
+import datetime
 
+import time
+import pytz
+from stock_schedule_manager.models import StockScheduleManager
 
-# Create your views here.
+from dateutil import tz
+from stock_schedule_manager.serializers import StockScheduleManagerSerializer
+
+SELECTED_TIME = "09:00"
+# SELECTED_TIME = "08:53"
+
 class CreateStockAPIView(APIView):
     """
     post:
@@ -117,3 +129,43 @@ class ListStockAPIView(ListAPIView):
             print(symbols)
             return Stock.objects.filter(symbol__in=symbols)
         return Stock.objects.all()
+
+@api_view(['GET'])
+def list_stock_jobs(request):
+    try:
+        list_tasks = schedule.get_jobs()
+        list_jobs = []
+
+        for task in list_tasks:
+            list_jobs.append(task.__str__())
+
+        list_stock_schedule_manager = StockScheduleManagerSerializer(StockScheduleManager.objects.all(), many=True).data
+
+        return Response({ "list_jobs": list_jobs, "stock_schedule_manager": list_stock_schedule_manager })
+    except:
+        return Response({ "message": "error" }, status=400)
+
+@api_view(['POST'])
+def start_daily_import_stock_job(requet):    
+    schedule.every().day.at(SELECTED_TIME).do(daily_import_stock_job).tag('daily_import_stock')
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+    return Response({ "message": "Start daily_import_stock job"})
+
+@api_view(['POST'])
+def cancel_daily_import_stock_job(request):
+    schedule.clear('daily_import_stock')
+    return Response({ "message": "Cancel daily_import_stock job"})
+
+@api_view(['POST'])
+def force_daily_import_stock_job(request):
+    # get date in data request
+    date = request.data.get('date', None)
+    res = daily_import_stock_job(date)
+    if res == "DONE":
+        return Response({ "message": "DONE"}, status=200)
+    else:
+        return Response({ "message": "ERROR"}, status=400)
+
+    

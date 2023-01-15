@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'push_notifications',
     'redirects',
     'stocks',
+    'stock_schedule_manager',
     'test',
     'tags',
     'todos',
