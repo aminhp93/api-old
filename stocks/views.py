@@ -135,12 +135,13 @@ def list_stock_jobs(request):
     try:
         list_tasks = schedule.get_jobs()
         list_jobs = []
+        print('list_tasks', list_tasks)
 
         for task in list_tasks:
             list_jobs.append(task.__str__())
 
         list_stock_schedule_manager = StockScheduleManagerSerializer(StockScheduleManager.objects.all(), many=True).data
-
+        print('list_jobs', list_jobs)
         return Response({ "list_jobs": list_jobs, "stock_schedule_manager": list_stock_schedule_manager })
     except:
         return Response({ "message": "error" }, status=400)
