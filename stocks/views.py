@@ -146,8 +146,10 @@ def list_stock_jobs(request):
         return Response({ "message": "error" }, status=400)
 
 @api_view(['POST'])
-def start_daily_import_stock_job(requet):    
+def start_daily_import_stock_job(requet):
+    print('start_daily_import_stock_job') 
     schedule.every().day.at(SELECTED_TIME).do(daily_import_stock_job).tag('daily_import_stock')
+    
     while True:
         schedule.run_pending()
         time.sleep(1)
