@@ -77,7 +77,7 @@ def daily_import_stock_job(date=None):
         print('DONE')
         return "DONE"
     except Exception as e:
-        print('ERROR', e.response.text)
+        print('ERROR', e)
         StockScheduleManager.objects.filter(date=real_request_date).delete()
         StockScheduleManager.objects.create(
             date=real_request_date,
